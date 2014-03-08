@@ -1,0 +1,131 @@
+#!/usr/bin/env perl
+
+use strict;
+use warnings;
+
+my $project = shift;
+my $description = shift;
+my $homepage = shift;
+
+unless($project && $description && $homepage) {
+  die "create-erlang-service.pl v0.1.0\n".
+      "(c) Alexander Alexeev 2014, http://eax.me/\n\n".
+      "Usage: $0 <prj_name> <description> <homepage>\n".
+      "Example: $0 accessdb 'Access Database' http://eax.me/erlang-deb-package/\n";
+}
+
+unless($project =~ /^\w+$/) {
+  die "Invalid characters in project name!\n";
+}
+
+unless($description =~ /^[\w\ \.\-]+$/) {
+  die "Invalid characters in description!\n";
+}
+
+unless($homepage =~ /^[\w\.\/\:\-]+$/) {
+  die "Invalid characters in homepage url!\n";
+}
+
+my $diff1 = qq!
+3,4c3,4
+<   {description, ""},
+<   {vsn, "1"},
+---
+>   {description, "$description"},
+>   {vsn, git},
+8c8,9
+<                   stdlib
+---
+>                   stdlib,
+>                   lager
+!;
+
+my $diff2 = qq!
+2c2
+<        {lib_dirs, []},
+---
+>        {lib_dirs, ["apps","deps"]},
+34c34
+<            {copy, "files/$project", "bin/$project"},
+---
+>            {template, "files/$project", "bin/$project"},
+38,39c38,39
+<            {copy, "files/sys.config", "releases/\\{\\{rel_vsn\\}\\}/sys.config"},
+<            {copy, "files/vm.args", "releases/\\{\\{rel_vsn\\}\\}/vm.args"}
+---
+>            {template, "files/app.config", "etc/app.config"},
+>            {template, "files/vm.args", "etc/vm.args"}
+!;
+
+my $diff3 = q!
+5c5
+< RUNNER_SCRIPT_DIR=$(cd ${0%/*} && pwd)
+---
+> RUNNER_SCRIPT_DIR={{runner_script_dir}}
+9,10c9,10
+< RUNNER_BASE_DIR=${RUNNER_SCRIPT_DIR%/*}
+< RUNNER_ETC_DIR=$RUNNER_BASE_DIR/etc
+---
+> RUNNER_BASE_DIR={{runner_base_dir}}
+> RUNNER_ETC_DIR={{runner_etc_dir}}
+12,13c12,13
+< PIPE_DIR=/tmp/$RUNNER_BASE_DIR/
+< RUNNER_USER=
+---
+> PIPE_DIR={{pipe_dir}}
+> RUNNER_USER={{runner_user}}
+41c41
+< RUNNER_LOG_DIR=$USE_DIR/log
+---
+> RUNNER_LOG_DIR={{runner_log_dir}}
+!;
+
+my $i = 0;
+my @diff_list = ($diff1, $diff2, $diff3);
+for my $diff (@diff_list) {
+  $i++;
+  $diff =~ s/^\s+//;
+
+  open my $fid, '>', "d$i.diff" or die $!;
+  print $fid $diff;
+  close $fid;
+}
+
+my @commands = (
+    "wget https://github.com/afiskon/erl-min-prj/raw/master/.gitignore",
+    "wget https://github.com/afiskon/erl-min-prj/raw/master/Makefile",
+    "wget https://github.com/afiskon/erl-min-prj/raw/master/rebar.config",
+    "wget https://github.com/afiskon/erl-min-prj/raw/master/rebar",
+    "chmod u+x rebar",
+    "./rebar create-node nodeid=$project",
+    "mkdir -p apps/$project",
+    "cd apps/$project && ../../rebar create-app appid=$project",
+    "wget raw.github.com/afiskon/erl-min-prj/master/files/vars.config -P ./files",
+    "wget raw.github.com/afiskon/erl-min-prj/master/files/vars-dev.config -P ./files",
+    "wget https://raw.github.com/afiskon/erl-min-prj/master/files/init -P ./files",
+    "wget https://raw.github.com/afiskon/erl-min-prj/master/files/postinst -P ./files",
+    "wget https://raw.github.com/afiskon/erl-min-prj/master/files/postrm -P ./files",
+    "rm ./files/sys.config",
+    "wget https://raw.github.com/afiskon/erl-min-prj/master/files/app.config -P ./files",
+    "find ./ -type f -exec sed -i 's/phonebook/4384e3dc562d2fa6fd34f076b9bb1fef/g' {} \\;",
+    "find ./ -type f -exec sed -i 's/Simple Phonebook/1739c5b646c7eee652b1ed90aa33e53e/g' {} \\;",
+    "find ./ -type f -exec sed -i 's!http://eax.me/!18606c9d31938b9bf1e1045d34f760c8!g' {} \\;",
+    "find ./ -type f -exec sed -i 's/4384e3dc562d2fa6fd34f076b9bb1fef/$project/g' {} \\;",
+    "find ./ -type f -exec sed -i 's/1739c5b646c7eee652b1ed90aa33e53e/$description/g' {} \\;",
+    "find ./ -type f -exec sed -i 's!18606c9d31938b9bf1e1045d34f760c8!$homepage!g' {} \\;",
+    "patch apps/$project/src/$project.app.src d1.diff",
+    "patch reltool.config d2.diff",
+    "patch ./files/$project d3.diff",
+    "rm *.diff",
+  );
+
+run($_) for @commands;
+
+print "All done!\n";
+
+sub run {
+  my ($cmd) = @_;
+  print "Executing `$cmd`\n";
+  system($cmd);
+  die "Failed to execute: $cmd" if $?;
+}
