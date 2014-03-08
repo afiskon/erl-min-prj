@@ -6,12 +6,12 @@
 # Required-Stop:     $syslog
 # Default-Start:     2 3 4 5
 # Default-Stop:      0 1 6
-# Short-Description: Simple phonebook
-# Description:       Simple phonebook
+# Short-Description: Simple Phonebook
+# Description:       Simple Phonebook
 ### END INIT INFO
 
 NAME=phonebook
-DESC="Simple phonebook"
+DESC="Simple Phonebook"
 
 PATH=/sbin:/usr/sbin:/bin:/usr/bin
 BASE_DIR=/usr/lib/$NAME

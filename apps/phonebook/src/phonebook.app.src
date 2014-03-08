@@ -1,6 +1,6 @@
 {application, phonebook,
  [
-  {description, "Simple phonebook"},
+  {description, "Simple Phonebook"},
   {vsn, git},
   {registered, []},
   {applications, [

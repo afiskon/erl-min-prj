@@ -3,7 +3,7 @@
 set -e
 
 PROJECT=phonebook
-DESCRIPTION="Simple phonebook"
+DESCRIPTION="Simple Phonebook"
 
 # create group
 if ! getent group $PROJECT >/dev/null; then

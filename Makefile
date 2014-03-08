@@ -1,5 +1,5 @@
 PROJECT=phonebook
-DESCRIPTION="Simple phonebook"
+DESCRIPTION="Simple Phonebook"
 HOMEPAGE="http://eax.me/"
 
 BUILD_DIR=$(CURDIR)/$(PROJECT)
