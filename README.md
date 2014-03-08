@@ -9,7 +9,7 @@ sudo gem install fpm
 make deb
 ```
 
-Also using this template you can create your own Erlang application:
+Also using this template you can create your own Erlang service:
 
 ```
 git checkout ...
@@ -23,7 +23,7 @@ git commit -am 'Initial Commit'
 git push origin HEAD
 git tag 0.1.0 # tags are used as deb package version
 git push origin 0.1.0
-make run # run application, for debug purposes
+make run # run service, for debug purposes
 make deb # create deb package
 ```
 
