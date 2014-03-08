@@ -1,4 +1,4 @@
-erlang-minimal-project
+Erlang Minimal Project
 ======================
 
 Minimal Erlang project and example of packing this project into deb package.
@@ -14,9 +14,10 @@ Also using this template you can create your own Erlang application:
 ```
 git checkout ...
 cd mynewservice
-wget https://raw.github.com/afiskon/erl-min-prj/master/scripts/create-erlang-service.pl
-chmod u+x create-erlang-service.pl
-./create-erlang-service.pl mynewservice "My New Service" http://example.com/
+wget https://raw.github.com/afiskon/erl-min-prj/master/scripts/new-erl-srv
+chmod u+x new-erl-srv
+./new-erl-srv mynewservice "My New Service" http://eax.me/
+rm new-erl-srv
 git add .
 git commit -am 'Initial Commit'
 git push origin HEAD
