@@ -1,4 +1,7 @@
 PROJECT=phonebook
+DESCRIPTION="Simple phonebook"
+HOMEPAGE="http://eax.me/"
+
 BUILD_DIR=$(CURDIR)/$(PROJECT)
 PACKAGE_DIR=$(CURDIR)/build
 
@@ -55,6 +58,6 @@ deb: clean build
 		--deb-pre-depends adduser \
 		--deb-user 0 \
 		--deb-group 0 \
-		--description "Simple phonebook" \
-		-a native --url "http://example.com" \
+		--description $(DESCRIPTION) \
+		-a native --url $(HOMEPAGE) \
 		-C $(PACKAGE_DIR) etc usr var
