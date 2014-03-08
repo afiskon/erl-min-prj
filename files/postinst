@@ -3,6 +3,7 @@
 set -e
 
 PROJECT=phonebook
+DESCRIPTION="Simple phonebook"
 
 # create group
 if ! getent group $PROJECT >/dev/null; then
@@ -13,10 +14,9 @@ fi
 if ! getent passwd $PROJECT >/dev/null; then
         adduser --ingroup $PROJECT --home /var/lib/$PROJECT --disabled-password \
 		--system --shell /bin/sh \
-		--gecos "Simple phonebook" $PROJECT
+		--gecos $DESCRIPTION $PROJECT
 fi
 
-# chown -R $PROJECT:$PROJECT /var/lib/$PROJECT
 chown -R $PROJECT:$PROJECT /usr/lib/$PROJECT
 chown -R $PROJECT:$PROJECT /var/log/$PROJECT
 
