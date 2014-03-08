@@ -33,7 +33,7 @@ build: compile
 
 run: clean
 	make OVERLAY_VARS=files/vars-dev.config
-	./phonebook/bin/phonebook console
+	./$(PROJECT)/bin/$(PROJECT) console
 
 deb: clean build
 	mkdir -p $(PACKAGE_DIR)/etc/init.d
