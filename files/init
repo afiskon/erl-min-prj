@@ -10,9 +10,10 @@
 # Description:       Simple phonebook
 ### END INIT INFO
 
-PATH=/sbin:/usr/sbin:/bin:/usr/bin
-DESC="Simple phonebook"
 NAME=phonebook
+DESC="Simple phonebook"
+
+PATH=/sbin:/usr/sbin:/bin:/usr/bin
 BASE_DIR=/usr/lib/$NAME
 DAEMON=$BASE_DIR/bin/$NAME
 SCRIPTNAME=/etc/init.d/$NAME
