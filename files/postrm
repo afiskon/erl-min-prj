@@ -1,0 +1,44 @@
+#!/bin/sh
+
+PROJECT=phonebook
+
+case "$1" in
+    purge)
+        update-rc.d $PROJECT remove >/dev/null
+        if [ -d /var/log/$PROJECT ]; then
+                rm -r /var/log/$PROJECT
+        fi
+        if [ -d /etc/$PROJECT ]; then
+                rm -r /etc/$PROJECT
+        fi
+        if [ -e /etc/init.d/$PROJECT ]; then
+                rm  /etc/init.d/$PROJECT
+        fi
+
+        if getent passwd $PROJECT >/dev/null; then
+                deluser $PROJECT
+        fi
+        if getent group $PROJECT >/dev/null; then
+                delgroup $PROJECT
+        fi
+
+        if [ -d /var/lib/$PROJECT ]; then
+                rm -r /var/lib/$PROJECT
+        fi
+        if [ -d /usr/lib/$PROJECT ]; then
+                rm -r /usr/lib/$PROJECT
+        fi
+    ;;
+
+    remove|upgrade|failed-upgrade|abort-install|abort-upgrade|disappear)
+    ;;
+
+    *)
+        echo "postrm called with unknown argument \`$1'" >&2
+        exit 1
+    ;;
+esac
+
+#DEBHELPER#
+
+exit 0

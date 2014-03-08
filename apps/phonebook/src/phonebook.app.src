@@ -1,0 +1,13 @@
+{application, phonebook,
+ [
+  {description, "Simple phonebook"},
+  {vsn, git},
+  {registered, []},
+  {applications, [
+                  kernel,
+                  stdlib,
+                  lager
+                 ]},
+  {mod, { phonebook_app, []}},
+  {env, []}
+ ]}.

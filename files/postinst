@@ -1,0 +1,40 @@
+#!/bin/sh
+
+set -e
+
+PROJECT=phonebook
+
+# create group
+if ! getent group $PROJECT >/dev/null; then
+        addgroup --system $PROJECT
+fi
+
+# create user
+if ! getent passwd $PROJECT >/dev/null; then
+        adduser --ingroup $PROJECT --home /var/lib/$PROJECT --disabled-password \
+		--system --shell /bin/sh \
+		--gecos "Simple phonebook" $PROJECT
+fi
+
+# chown -R $PROJECT:$PROJECT /var/lib/$PROJECT
+chown -R $PROJECT:$PROJECT /usr/lib/$PROJECT
+chown -R $PROJECT:$PROJECT /var/log/$PROJECT
+
+case "$1" in
+    configure)
+        if [ -x "/etc/init.d/$PROJECT" ]; then
+                update-rc.d $PROJECT defaults >/dev/null || exit $?
+        fi
+    ;;
+    abort-upgrade|abort-remove|abort-deconfigure)
+    ;;
+
+    *)
+        echo "postinst called with unknown argument \`$1'" >&2
+        exit 1
+    ;;
+esac
+
+#DEBHELPER#
+
+exit 0
