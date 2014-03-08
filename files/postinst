@@ -14,7 +14,7 @@ fi
 if ! getent passwd $PROJECT >/dev/null; then
         adduser --ingroup $PROJECT --home /var/lib/$PROJECT --disabled-password \
 		--system --shell /bin/sh \
-		--gecos $DESCRIPTION $PROJECT
+		--gecos "$DESCRIPTION" $PROJECT
 fi
 
 chown -R $PROJECT:$PROJECT /usr/lib/$PROJECT
