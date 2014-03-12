@@ -56,8 +56,6 @@ deb: clean build
 		--config-files /etc/$(PROJECT)/app.config \
 		--config-files /etc/$(PROJECT)/vm.args \
 		--deb-pre-depends adduser \
-		--deb-user 0 \
-		--deb-group 0 \
 		--description $(DESCRIPTION) \
 		-a native --url $(HOMEPAGE) \
 		-C $(PACKAGE_DIR) etc usr var
