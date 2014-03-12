@@ -27,4 +27,4 @@ make run # run service, for debug purposes
 make deb # create deb package
 ```
 
-For more details see http://eax.me/erlang-deb-package/
+For more details see http://eax.me/erlang-deb-package/ and http://redd.it/204ajd
