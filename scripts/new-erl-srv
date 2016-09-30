@@ -9,7 +9,7 @@ my $homepage = shift;
 
 unless($project && $description && $homepage) {
   die "Erlang Service Creator v0.1.0\n".
-      "(c) Alexander Alexeev 2014, http://eax.me/\n\n".
+      "(c) Aleksander Alekseev 2014, http://eax.me/\n\n".
       "Usage: $0 <prj_name> <description> <homepage>\n".
       "Example: $0 accessdb 'Access Database' http://eax.me/erlang-deb-package/\n";
 }
