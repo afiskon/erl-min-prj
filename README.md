@@ -16,7 +16,7 @@ git checkout ...
 cd mynewservice
 wget https://raw.github.com/afiskon/erl-min-prj/master/scripts/new-erl-srv
 chmod u+x new-erl-srv
-./new-erl-srv mynewservice "My New Service" http://eax.me/
+./new-erl-srv mynewservice "My New Service" https://eax.me/
 rm new-erl-srv
 git add .
 git commit -am 'Initial Commit'
@@ -27,4 +27,4 @@ make run # run service, for debug purposes
 make deb # create deb package
 ```
 
-For more details see http://eax.me/erlang-deb-package/ and http://redd.it/204ajd
+For more details see https://eax.me/erlang-deb-package/ and https://redd.it/204ajd
